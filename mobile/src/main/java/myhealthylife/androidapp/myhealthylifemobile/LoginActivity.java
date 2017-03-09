@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setTitle(getString(R.string.login_activity_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -36,7 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void handleLogin(){
 
+    public void onClickLogin(View view){
+        handleLogin();
+    }
+
+    private void handleLogin(){
+        Log.d("LOGIN","handle login");
     }
 }
