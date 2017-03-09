@@ -55,6 +55,15 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * override the action of the back button in order to quit the aplication
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finishAffinity();
+    }
 
     public void onClickLogin(View view){
         handleLogin();
