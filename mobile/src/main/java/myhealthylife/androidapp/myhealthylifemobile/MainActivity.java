@@ -105,10 +105,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
-        webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://www.google.com");
-        //webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/login.jsp");
+            webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
+            webView.setWebViewClient(new WebViewClient());
+            webView.getSettings().setJavaScriptEnabled(true);
+
+        if (savedInstanceState==null) {
+            webView.loadUrl("http://www.google.com");
+            //webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/login.jsp");
+        }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        webView.restoreState(savedInstanceState);
     }
 }
