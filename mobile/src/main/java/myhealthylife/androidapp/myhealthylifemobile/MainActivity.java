@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -110,11 +111,23 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
 
         if (savedInstanceState==null) {
-            webView.loadUrl("http://www.google.com");
-            //webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/login.jsp");
+            //webView.loadUrl("http://www.google.com");
+            webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/index.jsp");
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+        // If there's a page history, then we go to the previous page
+        if (webView.canGoBack()) {
+            webView.goBack();
+        }
+        // If there was no page history, uses the default system behavio
+        else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
