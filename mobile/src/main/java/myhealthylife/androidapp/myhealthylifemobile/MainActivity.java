@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String USERNAME_PREF_NAME="USERNAME_PREF_NAME";
     public final static String CRON_JOB_ACTIVE="CRON_JOB_ACTIVE";
+
+    private WebView webView;
 
     private String username=null;
 
@@ -98,5 +103,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("http://www.google.com");
+        //webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/login.jsp");
     }
 }
