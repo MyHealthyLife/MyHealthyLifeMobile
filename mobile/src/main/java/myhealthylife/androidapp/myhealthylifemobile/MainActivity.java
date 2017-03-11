@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
-            webView.setWebViewClient(new WebViewClient());
-            webView.getSettings().setJavaScriptEnabled(true);
+        webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
+        webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
 
         if (savedInstanceState==null) {
             webView.loadUrl("http://www.google.com");
