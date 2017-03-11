@@ -8,4 +8,9 @@
     <item android:id="@+id/logout"
         app:showAsAction="never"
         android:title="Logout" />
+
+    <item android:id="@+id/send_steps"
+        app:showAsAction="always"
+        android:title="Send Steps"
+        android:icon="@drawable/ic_walk_white_36dp"/>
 </menu>

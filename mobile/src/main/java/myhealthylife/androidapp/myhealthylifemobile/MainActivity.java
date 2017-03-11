@@ -1,8 +1,12 @@
 package myhealthylife.androidapp.myhealthylifemobile;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +14,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import myhealthylife.androidapp.myhealthylifemobile.services.StepsService;
+
 public class MainActivity extends AppCompatActivity {
 
     public final static String USERNAME_PREF_NAME="USERNAME_PREF_NAME";
+    public final static String CRON_JOB_ACTIVE="CRON_JOB_ACTIVE";
+
     private String username=null;
 
     @Override
@@ -41,6 +49,26 @@ public class MainActivity extends AppCompatActivity {
             Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
         }
+
+
+
+        if(username!=null){
+            /*check if the task wich will automatilly send the steps is active*/
+            if(sharedPreferences.contains(CRON_JOB_ACTIVE)){
+                boolean active=sharedPreferences.getBoolean(CRON_JOB_ACTIVE,false);
+
+                if(!active){
+                    AlarmManager alarmManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                }
+            }
+        }
+        //Log.d("ALARM",""+alarmManager.);
+    }
+
+    private PendingIntent getCronjobIntent(){
+
+        return null;
     }
 
     @Override
@@ -55,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 /*reload the activity*/
                 finish();
                 startActivity(getIntent());
+                break;
+            case R.id.send_steps:
+                Intent intent=new Intent(this, StepsService.class);
+                intent.putExtra(StepsService.USERNAME,username);
+                startService(intent);
                 break;
         }
 
