@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new CustomWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
 
         if (savedInstanceState==null) {
