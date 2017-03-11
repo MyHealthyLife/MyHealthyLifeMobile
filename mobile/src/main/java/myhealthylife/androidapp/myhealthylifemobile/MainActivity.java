@@ -9,6 +9,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
+        webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("http://www.google.com");
         //webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/login.jsp");
