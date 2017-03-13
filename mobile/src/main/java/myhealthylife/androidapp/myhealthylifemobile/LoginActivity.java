@@ -1,10 +1,13 @@
 package myhealthylife.androidapp.myhealthylifemobile;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +29,15 @@ import myhealthylife.androidapp.myhealthylifemobile.utils.ServicesLocator;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private final static String ON_LOGIN_KEY="ON_LOGIN_KEY";
+
+    private Dialog loadingDialog=null;
+    /**
+     * used during the screen rotation in order to revisualize the loading
+     * screen during the login process
+     */
+    private boolean onLogin=false;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -42,6 +54,38 @@ public class LoginActivity extends AppCompatActivity {
         setTitle(getString(R.string.login_activity_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        if(savedInstanceState!=null) {
+            if (savedInstanceState.containsKey(ON_LOGIN_KEY)) {
+                onLogin = savedInstanceState.getBoolean(ON_LOGIN_KEY);
+            }
+        }
+
+        Log.d("ONCREATE",""+onLogin);
+
+        if(onLogin){
+            showLoadingDialog();
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(ON_LOGIN_KEY,onLogin);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(loadingDialog!=null)
+            loadingDialog.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(loadingDialog!=null)
+            loadingDialog.dismiss();
     }
 
     @Override
@@ -76,6 +120,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d("LOGIN","handle login "+username.getText()+" "+password.getText());
 
+        showLoadingDialog();
+
 
         RequestQueue requestQueue= Volley.newRequestQueue(this);
 
@@ -88,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                 /*handle a 200 response*/
                 Log.d("JSON",response.toString());
                 validateLogin(response,username.getText().toString(),password.getText().toString());
+                hideLoadingDialog();
             }
         }, new Response.ErrorListener() {
             /*handle an error*/
@@ -95,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("JSON",error.toString());
                 loginError();
+                hideLoadingDialog();
             }
         });
 
@@ -139,5 +187,25 @@ public class LoginActivity extends AppCompatActivity {
         else {
             loginError();
         }
+    }
+
+    private void showLoadingDialog(){
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        LayoutInflater inflater=this.getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.loading_dialog_layout,null));
+
+        loadingDialog=builder.create();
+        loadingDialog.show();
+
+        onLogin=true;
+    }
+
+    private void hideLoadingDialog(){
+        if(loadingDialog!=null)
+            loadingDialog.dismiss();
+
+        onLogin=false;
     }
 }
