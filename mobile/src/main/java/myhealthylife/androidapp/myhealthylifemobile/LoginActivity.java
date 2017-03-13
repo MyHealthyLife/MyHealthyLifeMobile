@@ -2,6 +2,7 @@ package myhealthylife.androidapp.myhealthylifemobile;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -196,10 +197,14 @@ public class LoginActivity extends AppCompatActivity {
 
         builder.setView(inflater.inflate(R.layout.loading_dialog_layout,null));
 
+        onLogin=true;
+
         loadingDialog=builder.create();
+        loadingDialog.setCanceledOnTouchOutside(false);
+
         loadingDialog.show();
 
-        onLogin=true;
+
     }
 
     private void hideLoadingDialog(){
