@@ -5,7 +5,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.PersistableBundle;
+import android.renderscript.Element;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,17 +23,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import javax.sql.DataSource;
 
 import myhealthylife.androidapp.myhealthylifemobile.services.StepsService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     public final static String USERNAME_PREF_NAME="USERNAME_PREF_NAME";
     public final static String CRON_JOB_ACTIVE="CRON_JOB_ACTIVE";
+    public final static String LAST_SENDED_STEPS="LAST_SENDED_STEPS";
+
+    private SensorManager sensorManager;
 
     private WebView webView;
 
     private String username=null;
+
+    private double steps=0;
+    private double lastSendSteps=0;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,6 +64,26 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPreferences.contains(USERNAME_PREF_NAME))
         {
            username=sharedPreferences.getString(USERNAME_PREF_NAME,"");
+
+            /*register the sensor listener for getting the steps*/
+            if(sensorManager!=null) {
+                if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
+                    sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
+                            sensorManager.SENSOR_DELAY_NORMAL);
+                } else {
+                    Log.d("STEPS", "step sensor not present");
+                    Toast.makeText(this, "step sensor not present", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Log.d("STEPS", "no sensor manager");
+                Toast.makeText(this, "no sensor manager", Toast.LENGTH_SHORT).show();
+            }
+
+
+            if(sharedPreferences.contains(LAST_SENDED_STEPS)){
+                lastSendSteps=sharedPreferences.getFloat(LAST_SENDED_STEPS,0);
+            }
         }
         else{
             Log.d("MAIN","Open login activity");
@@ -73,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("ALARM",""+alarmManager.);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
     private PendingIntent getCronjobIntent(){
 
         return null;
@@ -80,11 +120,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
 
         switch (item.getItemId()){
             case R.id.logout:
                 /*remove login informations*/
-                SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
                 sharedPreferences.edit().remove(USERNAME_PREF_NAME).apply();
 
                 /*reload the activity*/
@@ -92,13 +132,44 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(getIntent());
                 break;
             case R.id.send_steps:
-                Intent intent=new Intent(this, StepsService.class);
-                intent.putExtra(StepsService.USERNAME,username);
-                startService(intent);
+                sendSteps(sharedPreferences);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendSteps(SharedPreferences sharedPreferences) {
+        double sendSteps=0;
+
+        Log.d("STEPS","steps value: "+steps);
+
+        if(steps==0)
+            return;
+
+        //TODO assunzione molto forte
+                /* step counter will be resetted during the device booting
+                * if the actual step value is higher than the last send
+                * the device has not been reboted, so we subtract the actual value to the stored value*/
+        if(steps>lastSendSteps){
+            sendSteps=steps-lastSendSteps;
+        }
+        else if(steps<lastSendSteps){//the device has been rebooted so the steps value is lower than the stored one
+            sendSteps=steps;
+
+        }
+        else{
+            return;
+        }
+
+
+        Intent intent=new Intent(this, StepsService.class);
+        intent.putExtra(StepsService.USERNAME,username);
+        intent.putExtra(StepsService.STEPS,sendSteps);
+        startService(intent);
+
+        lastSendSteps=steps;
+        sharedPreferences.edit().putFloat(LAST_SENDED_STEPS, (float) lastSendSteps).apply();
     }
 
     @Override
@@ -114,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
             //webView.loadUrl("http://www.google.com");
             webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/index.jsp");
         }
+
+        sensorManager= (SensorManager) getSystemService(SENSOR_SERVICE);
     }
 
     @Override
@@ -139,5 +212,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         webView.restoreState(savedInstanceState);
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        steps=sensorEvent.values[0];
+        Log.d("STEPS",""+steps);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 }

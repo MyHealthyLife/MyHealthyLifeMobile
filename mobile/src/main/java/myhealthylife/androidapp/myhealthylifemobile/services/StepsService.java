@@ -29,6 +29,7 @@ import myhealthylife.androidapp.myhealthylifemobile.utils.ServicesLocator;
 public class StepsService extends IntentService {
 
     public final static String USERNAME="USERNAME";
+    public final static String STEPS="STEPS";
 
     public StepsService() {
         super("StepsService");
@@ -43,6 +44,11 @@ public class StepsService extends IntentService {
                 return;
             }
 
+            if(!intent.hasExtra(STEPS)){
+                Log.d("STEPS","no steps");
+                return;
+            }
+
             String username=intent.getStringExtra(USERNAME);
 
             RequestQueue requestQueue= Volley.newRequestQueue(this);
@@ -53,7 +59,7 @@ public class StepsService extends IntentService {
             try {
                 measure.put("dateRegistered",System.currentTimeMillis());
                 measure.put("measureType","steps");
-                measure.put("measureValue",100);
+                measure.put("measureValue",intent.getDoubleExtra(STEPS,0));
             } catch (JSONException e) {
                 Log.d("STEPS","unable to create the json object");
                 return;
