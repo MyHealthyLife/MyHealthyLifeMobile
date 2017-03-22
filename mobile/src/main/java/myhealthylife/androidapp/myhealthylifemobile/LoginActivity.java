@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import myhealthylife.androidapp.myhealthylifemobile.services.StepsService;
 import myhealthylife.androidapp.myhealthylifemobile.utils.ServicesLocator;
 
 public class LoginActivity extends AppCompatActivity {
@@ -173,6 +174,9 @@ public class LoginActivity extends AppCompatActivity {
                     /*save the username in the shared preferencies*/
                     SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                     sharedPreferences.edit().putString(MainActivity.USERNAME_PREF_NAME,username).apply();
+
+                    /*set the alarm manager in order to sending the steps periodically*/
+                    StepsService.setAlarmManager(this,username);
 
                     /*close the activity and return to the main activity*/
                     this.finish();

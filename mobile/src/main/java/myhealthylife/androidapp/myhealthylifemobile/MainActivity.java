@@ -90,17 +90,16 @@ public class MainActivity extends AppCompatActivity{
         startService(intent);
     }
 
-    private PendingIntent getCronjobIntent(){
-
-        return null;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
 
         switch (item.getItemId()){
             case R.id.logout:
+
+                /*unset the cronjob for sending the steps*/
+                StepsService.removeAlarmManager(this,username);
+
                 /*remove login informations*/
                 sharedPreferences.edit().remove(USERNAME_PREF_NAME).apply();
 

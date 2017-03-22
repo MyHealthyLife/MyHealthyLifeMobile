@@ -1,6 +1,8 @@
 package myhealthylife.androidapp.myhealthylifemobile.services;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -80,7 +83,7 @@ public class StepsService extends IntentService implements SensorEventListener {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d("STEPS","handle intent");
+        Log.d("STEPS","handle intent at "+System.currentTimeMillis());
 
         SharedPreferences sharedPreferences=this.getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE);
@@ -193,6 +196,23 @@ public class StepsService extends IntentService implements SensorEventListener {
         Intent intent=new Intent(context, StepsService.class);
         intent.putExtra(StepsService.USERNAME,username);
         return intent;
+    }
+
+    public static PendingIntent getPendingIntent(Context context,String username){
+        Intent intent =getStepsIntend(context,username);
+        PendingIntent pendingIntent=PendingIntent.getService(context,200,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
+    }
+
+    public static void setAlarmManager(Context context, String username){
+        AlarmManager alarmManager= (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+1000,15000,
+                getPendingIntent(context,username));
+    }
+
+    public static void removeAlarmManager(Context context,String username){
+        AlarmManager alarmManager= (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(getPendingIntent(context,username));
     }
 
 }
