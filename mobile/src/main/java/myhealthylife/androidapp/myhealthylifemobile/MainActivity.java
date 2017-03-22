@@ -19,6 +19,7 @@ import android.widget.Toast;
 import javax.sql.DataSource;
 
 import myhealthylife.androidapp.myhealthylifemobile.services.StepsService;
+import myhealthylife.androidapp.myhealthylifemobile.web.WebInterface;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -125,10 +126,11 @@ public class MainActivity extends AppCompatActivity{
         webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
         webView.setWebViewClient(new CustomWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new WebInterface(this),"Android");
 
         if (savedInstanceState==null) {
             //webView.loadUrl("http://www.google.com");
-            webView.loadUrl("http://192.168.1.68:8080/MyHealthyLifeWeb/index.jsp");
+            webView.loadUrl("file:///android_asset/test.html");
         }
     }
 
