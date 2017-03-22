@@ -206,13 +206,19 @@ public class StepsService extends IntentService implements SensorEventListener {
 
     public static void setAlarmManager(Context context, String username){
         AlarmManager alarmManager= (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+1000,15000,
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+1000,1000*3600*3,
                 getPendingIntent(context,username));
     }
 
     public static void removeAlarmManager(Context context,String username){
         AlarmManager alarmManager= (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(getPendingIntent(context,username));
+    }
+
+    public static void resetSendStepsField(Context context){
+        SharedPreferences sharedPreferences=context.getApplicationContext().getSharedPreferences(context.getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        sharedPreferences.edit().putFloat(LAST_SENDED_STEPS, (float) 0).apply();
     }
 
 }
