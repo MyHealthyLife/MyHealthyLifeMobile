@@ -179,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                     StepsService.setAlarmManager(this,username);
 
                     /*close the activity and return to the main activity*/
+
                     this.finish();
                 }
                 else {

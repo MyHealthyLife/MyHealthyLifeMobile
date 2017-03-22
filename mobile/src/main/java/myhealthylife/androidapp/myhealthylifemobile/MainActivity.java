@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity{
 
                 }
             }
+
+            webView.reload();
         }
         //Log.d("ALARM",""+alarmManager.);
     }
@@ -121,6 +123,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("MAIN_AC","oncreate");
+
         setContentView(R.layout.activity_main);
 
         webView = (WebView) findViewById(R.id.webViewMyHealthyLife);
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity{
 
         if (savedInstanceState==null) {
             //webView.loadUrl("http://www.google.com");
-            webView.loadUrl("file:///android_asset/test.html");
+            webView.loadUrl("file:///android_asset/index.html");
         }
     }
 
