@@ -10,7 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.provider.Settings;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -113,6 +113,7 @@ public class StepsService extends IntentService implements SensorEventListener {
 
             if(stepsToSend==null){
                 Log.d("STEPS","error");
+                showToast("MyHealthyLife: cannot send a 0 steps measure");
                 return;
             }
 
@@ -132,6 +133,16 @@ public class StepsService extends IntentService implements SensorEventListener {
         }
     }
 
+    private void showToast(final String text) {
+        Handler mHandler = new Handler(getMainLooper());
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @NonNull
     private JsonObjectRequest getStepsRequest(String username, JSONObject measure) {
         return new JsonObjectRequest(Request.Method.POST,
@@ -140,11 +151,13 @@ public class StepsService extends IntentService implements SensorEventListener {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("STEPS","update successfull");
+                        Toast.makeText(getApplicationContext(),"MyHealthyLife: steps measure sucessfully updated",Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("STEPS","update error "+error.toString());
+                        Toast.makeText(getApplicationContext(),"MyHealthyLife: error during steps update",Toast.LENGTH_SHORT).show();
                     }
                 });
     }
