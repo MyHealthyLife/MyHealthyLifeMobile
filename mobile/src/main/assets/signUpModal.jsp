@@ -58,14 +58,19 @@
 		                <div class="col-xs-6">
 	                		<div class="form-group">
 			                  <label for="birthdate">Birthdate</label>
-			                  <input type="text" class="form-control" name="birthdate" placeholder="Insert birthdate">
+			                  <input type="date" class="form-control" name="birthdate" placeholder="Insert birthdate">
 			                </div>
 		                </div>
 		                <div class="col-xs-6">
 	                		<div class="form-group">
-			                  <label for="sex">Sex</label>
-			                  <input type="text" class="form-control" name="sex" placeholder="Insert sex">
-			                </div>
+		                   		<label for="sex">Sex</label>
+				                <!-- <input type="text" class="form-control" name="sex" placeholder="Insert sex">-->
+				                <select class="form-control ingredient" name="sex">
+			        				<option value="" disabled selected>Male or Female</option>
+			        				<option value="M">Male</option>
+			        				<option value="F">Female</option>
+		          				</select><br>
+					        </div>
 		                </div>
 	                </div>
 	                

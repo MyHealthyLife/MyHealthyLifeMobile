@@ -20,6 +20,7 @@ app.controller('user_data', function ($scope,$rootScope, $http) {
 	$scope.edit_lastname;
 	$scope.edit_sex;
 	$scope.edit_birthdate;
+	$scope.edit_username_visibility;
 	
 	
 	$scope.loadUserData = function () {
@@ -62,6 +63,7 @@ app.controller('user_data', function ($scope,$rootScope, $http) {
     	$scope.edit_lastname=$scope.user_data.lastname;
     	$scope.edit_sex=$scope.user_data.sex;
     	$scope.edit_birthdate=new Date($scope.user_data.birthdate);
+    	$scope.edit_username_visibility=$scope.user_data.usernameVisible;
     	$("#editDataModal").modal('show');
     }
     
@@ -71,6 +73,7 @@ app.controller('user_data', function ($scope,$rootScope, $http) {
     	$scope.user_data.lastname=$scope.edit_lastname;
     	$scope.user_data.sex=$scope.edit_sex;
     	$scope.user_data.birthdate=$scope.edit_birthdate.getTime() + 1000 * 60 * 60 * 24;
+    	$scope.user_data.usernameVisible=$scope.edit_username_visibility;
     	$("#editDataModal").modal('hide');
     	$(".loading_data").show();
     	
@@ -120,10 +123,26 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
         }).then(function(success) {
             $scope.myData = success.data;
             $('.loaderSentences').hide();
+            for(i=0;i<$scope.myData.length;i++){
+            	$scope.loadSentenceDetails($scope.myData[i]);
+            }
         }, function(error){
         	console.log('error');
         });
 	}
+	
+	$scope.loadSentenceDetails=function(sentence){
+		$http({
+            url: centric02_basic+"/sentence/"+global_username+"/"+sentence.idSentence,
+            method: 'GET',
+            params: {
+            }
+        }).then(function(success) {
+            sentence.url=success.data.url;
+        }, function(error){
+        	console.log('error');
+        });
+	};
 	
 	$scope.loadmeasuretypes=function(){
 		$http({
@@ -144,7 +163,7 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
 	}
 	
 	//$interval($scope.loadData,5000)
-	setInterval($scope.loadData,5000);
+	setInterval($scope.loadData,1000*60);
 	$scope.loadData();
 	$scope.loadmeasuretypes();
 	
@@ -169,6 +188,7 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
             
         }, function(error){
         	console.log('error');
+        	$('#errorModal').modal('show');
         });
 	};
 	
@@ -183,7 +203,7 @@ app.controller('foods_for_me', function ($scope,$rootScope, $http) {
 		$('.foods_card').hide();
 		
 		$http({
-            url: centric01_basic+"/recipe/"+global_username,
+            url: centric01_basic+"/foods/"+global_username,
             method: 'GET',
             params: {
             }
@@ -215,7 +235,7 @@ app.controller('suggestedRecipesController', function ($scope,$rootScope, $http)
         
     	// Gets all the recipes from the server
     	$http({
-            url: centric02_basic+"/recipe",
+            url: centric02_basic+"/recipe/suggested/" + global_username,
             method: 'GET',
             headers: {
             	'Accept': 'application/json'

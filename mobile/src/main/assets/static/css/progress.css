@@ -7,3 +7,30 @@ body{
 	background-color: rgb(220, 220, 220);
 	
 }
+
+.measure-history{
+  max-height:490px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  width:100%;
+}
+
+.add-measure{
+  display:block;
+  max-height:350px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  width:100%;
+}
+.current-health{
+  display:block;
+  max-height:400px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  width:100%;
+}
+.goal-progress{
+  max-height:250px;
+  overflow:hidden;
+  width:100%;
+}

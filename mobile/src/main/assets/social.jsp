@@ -48,10 +48,10 @@
 	
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	        <ul class="nav navbar-nav">
-	            <li><a href="index.html">My Profile <span class="sr-only"></span></a></li>
-	            <li><a href="progress.html">Progress</a></li>
-	            <li class="active"><a href="social.html">Social</a></li>
-	            <li><a href="help.html">Help</a></li>
+	            <li><a href="index.jsp">My Profile <span class="sr-only"></span></a></li>
+	            <li><a href="progress.jsp">Progress</a></li>
+	            <li class="active"><a href="social.jsp">Social</a></li>
+	            <li><a href="help.jsp">Help</a></li>
 	        </ul>
 		 
 	 		<!-- Search bar-->

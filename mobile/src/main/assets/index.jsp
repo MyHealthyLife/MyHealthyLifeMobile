@@ -49,10 +49,10 @@
 	
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	        <ul class="nav navbar-nav">
-	            <li class="active"><a href="index.html">My Profile <span class="sr-only"></span></a></li>
-	            <li><a href="progress.html">Progress</a></li>
-	            <li><a href="social.html">Social</a></li>
-	            <li><a href="help.html">Help</a></li>
+	            <li class="active"><a href="index.jsp">My Profile <span class="sr-only"></span></a></li>
+	            <li><a href="progress.jsp">Progress</a></li>
+	            <li><a href="social.jsp">Social</a></li>
+	            <li><a href="help.jsp">Help</a></li>
 	        </ul>
 		 
 	 		<!-- Search bar-->
@@ -128,7 +128,7 @@
 		                    <div class="desc">Lastname: {{user_data.lastname}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
 		                    <div class="desc">Sex: {{user_data.sex}} </div>
 		                    <div class="desc">Birthdate: {{user_data.birthdate}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
-		                    
+		                    <div class="desc checkbox"><input type="checkbox" ng-model="user_data.usernameVisible" disabled="disabled"/> public telegram username</div>
 		                    <div class="desc"><br><button class="btn btn-primary" ng-click="editData()"><span class="	glyphicon glyphicon-pencil"></span>Edit data</button></div>
 		                </div>
 		                <div class="bottom">
@@ -171,6 +171,7 @@
 			                            		</select><br>
 			                            		<label>Birthdate:</label>
 			                            		<input class="form-control" type="date" name="birthdate" ng-model="edit_birthdate"><br><br>
+			                            		<div class="checkbox"><input type="checkbox" ng-model="edit_username_visibility"/>Telegram username visible </div>
 			                            		
 			                            	</form>
 		                            	</center>
@@ -235,8 +236,12 @@
 					  <div class="card" ng-repeat="x in myData">
 						  <!-- <img class="card-img-top" src="http://stock.wikimini.org/w/images/9/95/Gnome-stock_person-avatar-profile.png" alt="Card image cap">-->
 						  <div class="card-block">
-						    <h4 class="card-title"><span class="glyphicon glyphicon-user"></span> {{x.usernameOne}} [{{x.insertionTime}}]</h4>
+						    <h4 class="card-title"><span class="glyphicon glyphicon-user"></span> <a data-toggle="collapse" href="#image-div-{{x.idDedicatedSentence}}">{{x.usernameOne}} [{{x.insertionTime}}]</a></h4>
 						    <p class="card-text"> {{x.sentenceText}}</p>
+						    
+						    <div class="collapse" id="image-div-{{x.idDedicatedSentence}}">
+						    	<img src="{{x.url}}" alt="no image here :(" style="max-width: 50%; max-height: 50%"><img>
+						    </div>
 						    <p align="right"><a href="#" class="btn btn-primary" ng-click="replaySentence(x.usernameOne)">Reply</a></p>
 						  </div>
 						</div>
@@ -249,7 +254,7 @@
 		<br>
 		
 		
-		<!-- Replay Modal -->
+		<!-- Reply Modal -->
 		   
 		    <div class="modal fade" id="replayModal" role="dialog" aria-hidden="true" style="display: none;">
 		       <div class="modal-dialog">
@@ -257,7 +262,7 @@
 		         <div class="modal-content">
 		             <div class="modal-header">
 		                 <button type="button" class="close" data-dismiss="modal">�</button>
-		                 <h2 class="modal-title">Replay to {{userToReplay}}</h2>
+		                 <h2 class="modal-title">Reply to {{userToReplay}}</h2>
 		               </div>
 		               <div class="modal-body">
 		                   
@@ -311,6 +316,41 @@
 		                        <div class="col-md-12">
 		                            <div class="form-group">
 		                            	<h3>sentence sent successfully</h3>
+		                            
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <br>
+		
+		               </div>
+		               <div class="modal-footer">
+		                    <center>
+		                        <button data-dismiss="modal" name="genericButtonDismiss" type="button" class="btn btn-primary">Cancel</button>
+		                    </center>
+		               </div>
+		         </div>
+		
+		       </div>
+		 
+		
+		</div>
+		
+		<!-- Error Modal -->
+		   
+		    <div class="modal fade " id="errorModal" role="dialog" aria-hidden="true" style="display: none;">
+		       <div class="modal-dialog">
+		         <!-- Modal content-->
+		         <div class="modal-content">
+		             <div class="modal-header">
+		                 <button type="button" class="close" data-dismiss="modal">�</button>
+		                 <h2 class="modal-title">Sentence NOT sent</h2>
+		               </div>
+		               <div class="modal-body">
+		                   
+		                    <div class="row">
+		                        <div class="col-md-12">
+		                            <div class="form-group">
+		                            	<h3>An error occours</h3>
 		                            
 		                            </div>
 		                        </div>

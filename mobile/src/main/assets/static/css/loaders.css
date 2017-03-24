@@ -14,31 +14,3 @@
 }
 
 
-.measure-history{
-  height:490px;
-  overflow-y:scroll;
-  overflow-x:hidden;
-  width:100%;
-}
-
-.add-measure{
-  display:block;
-  height:auto;
-  height:200px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  width:100%;
-}
-.current-health{
-  display:block;
-  height:auto;
-  height:200px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  width:100%;
-}
-.goal-progress{
-  height:250px;
-  overflow:hidden;
-  width:100%;
-}

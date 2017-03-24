@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity{
 
         if (savedInstanceState==null) {
             //webView.loadUrl("http://www.google.com");
-            webView.loadUrl("file:///android_asset/index.html");
+            webView.loadUrl("file:///android_asset/index.jsp");
         }
     }
 
