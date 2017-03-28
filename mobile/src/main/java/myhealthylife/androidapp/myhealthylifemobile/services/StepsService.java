@@ -218,12 +218,14 @@ public class StepsService extends IntentService implements SensorEventListener {
     }
 
     public static void setAlarmManager(Context context, String username){
+        Log.d("ALARM MANAGER","setting step service...");
         AlarmManager alarmManager= (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+1000,1000*3600*3,
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+1000, 1000*3600*12,
                 getPendingIntent(context,username));
     }
 
     public static void removeAlarmManager(Context context,String username){
+        Log.d("ALARM MANAGER","removing step service...");
         AlarmManager alarmManager= (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(getPendingIntent(context,username));
     }
