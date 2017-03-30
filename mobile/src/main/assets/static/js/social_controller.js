@@ -15,7 +15,7 @@ app.controller('rankingController', function ($scope,$rootScope, $http) {
         $(".loaderRanking").show();
         
         $http({
-            url: centric02_basic+"/ranking/"+global_username+"?bot=false",
+            url: centric02_basic+"/ranking/"+global_username,
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
