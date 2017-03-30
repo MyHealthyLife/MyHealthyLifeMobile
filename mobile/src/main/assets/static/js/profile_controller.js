@@ -30,6 +30,10 @@ app.controller('user_data', function ($scope,$rootScope, $http) {
         $http({
             url: centric01_basic+"/user/data/"+global_username,
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -83,7 +87,8 @@ app.controller('user_data', function ($scope,$rootScope, $http) {
             url: centric01_basic+"/user/data/"+global_username,
             method: 'PUT',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: $scope.user_data
         }).then(function(success)
@@ -118,6 +123,10 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
 		$http({
             url: centric02_basic+"/sentence/"+global_username,
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -135,6 +144,10 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
 		$http({
             url: centric02_basic+"/sentence/"+global_username+"/"+sentence.idSentence,
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -149,7 +162,8 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
             url: centric01_basic+"/measuretypes",
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             params: {
             }
@@ -180,7 +194,8 @@ app.controller('sentence_receviver', function ($scope,$rootScope, $http){
 			url: centric02_basic+"/sentence/" + global_username + "/" + $scope.userToReplay + "/" + $scope.typeForResponse + "/" + $scope.modeToReplay,
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: null
         }).then(function(success) {
@@ -205,6 +220,10 @@ app.controller('foods_for_me', function ($scope,$rootScope, $http) {
 		$http({
             url: centric01_basic+"/foods/"+global_username,
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -231,15 +250,16 @@ app.controller('suggestedRecipesController', function ($scope,$rootScope, $http)
 		
 		// Shows the loader
         $(".showOnLoadSuggestedRecipes").hide();
-        $(".loaderAddSuggestedRecipes").show();
+        $(".loaderSuggestedRecipes").show();
         
     	// Gets all the recipes from the server
     	$http({
             url: centric02_basic+"/recipe/suggested/" + global_username,
             method: 'GET',
             headers: {
-            	'Accept': 'application/json'
-        	},
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {

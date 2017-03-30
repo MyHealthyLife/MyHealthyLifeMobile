@@ -17,6 +17,10 @@ app.controller('currentHealthController', function ($scope,$rootScope, $http) {
         $http({
             url: centric01_basic+"/user/data/"+global_username,
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -83,6 +87,10 @@ app.controller('progressBarController', function ($scope,$rootScope, $http) {
         $http({
             url: centric01_basic+"/user/goals/"+global_username,
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -151,6 +159,10 @@ app.controller('addMeasureController', function ($scope,$rootScope, $http) {
         $http({
             url: centric01_basic+"/measuretypes",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -186,7 +198,8 @@ app.controller('addMeasureController', function ($scope,$rootScope, $http) {
             url: centric01_basic+"/measure/"+global_username,
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: $scope.measureData
         }).then(function(success)
@@ -230,6 +243,10 @@ app.controller('measureHistoryController', function ($scope,$rootScope, $http) {
         $http({
             url: centric01_basic+"/measure/"+global_username+"/history",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -255,7 +272,7 @@ app.controller('measureHistoryController', function ($scope,$rootScope, $http) {
 				$scope.measureHistory[i].dateRegistered = newdate;
         	}
         	
-        	$scope.measureHistory = $scope.measureHistory.reverse();
+        	//$scope.measureHistory = $scope.measureHistory.reverse();
 
             // Hides the loader and shows the content
             $(".loaderHistory").hide();
@@ -282,7 +299,8 @@ app.controller('measureHistoryController', function ($scope,$rootScope, $http) {
             url: centric01_basic+"/measure/"+global_username+"/"+measureId,
             method: 'DELETE',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
         }).then(function(success)
         {

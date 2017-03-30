@@ -17,6 +17,11 @@ app.controller('rankingController', function ($scope,$rootScope, $http) {
         $http({
             url: centric02_basic+"/ranking/"+global_username+"?bot=false",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+                
+            },
             params: {
             }
         }).then(function(success) {
@@ -84,6 +89,10 @@ app.controller('addFoodController', function ($scope,$rootScope, $http) {
     	$http({
             url: centric02_basic+"/food/foodTypes",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -120,7 +129,8 @@ app.controller('addFoodController', function ($scope,$rootScope, $http) {
             url: centric02_basic+"/food",
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: $scope.foodData
         }).then(function(success)
@@ -169,6 +179,10 @@ app.controller('addRecipeController', function ($scope,$rootScope, $http) {
     	$http({
             url: centric02_basic+"/food/all",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -215,7 +229,8 @@ app.controller('addRecipeController', function ($scope,$rootScope, $http) {
             url: centric02_basic+"/recipe",
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: $scope.recipeData
         }).then(function(success)
@@ -263,6 +278,10 @@ app.controller('addSentenceController', function ($scope,$rootScope, $http) {
         $http({
             url: centric01_basic+"/measuretypes",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -303,7 +322,8 @@ app.controller('addSentenceController', function ($scope,$rootScope, $http) {
             url: centric02_basic+"/sentence",
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: $scope.sentenceData
         }).then(function(success)
@@ -354,6 +374,10 @@ app.controller('dedicateSentenceController', function ($scope,$rootScope, $http)
         $http({
             url: centric01_basic+"/measuretypes",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -375,6 +399,10 @@ app.controller('dedicateSentenceController', function ($scope,$rootScope, $http)
     	$http({
             url: centric01_basic+"/people",
             method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             params: {
             }
         }).then(function(success) {
@@ -413,7 +441,8 @@ app.controller('dedicateSentenceController', function ($scope,$rootScope, $http)
             url: centric02_basic+"/sentence/" + global_username + "/" + toUser + "/" + sentenceType + "/" + sentenceTypeMotive,
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             data: null
         }).then(function(success)
