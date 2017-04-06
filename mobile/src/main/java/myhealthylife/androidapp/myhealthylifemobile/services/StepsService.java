@@ -15,15 +15,21 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import myhealthylife.androidapp.myhealthylifemobile.R;
 import myhealthylife.androidapp.myhealthylifemobile.utils.ServicesLocator;
@@ -127,7 +133,7 @@ public class StepsService extends IntentService implements SensorEventListener {
                 return;
             }
 
-            JsonObjectRequest putStepsRequest = getStepsRequest(username, measure);
+            StringRequest putStepsRequest = getStepsRequest(username, measure);
 
             requestQueue.add(putStepsRequest);
         }
@@ -144,22 +150,71 @@ public class StepsService extends IntentService implements SensorEventListener {
     }
 
     @NonNull
-    private JsonObjectRequest getStepsRequest(String username, JSONObject measure) {
-        return new JsonObjectRequest(Request.Method.POST,
-                        ServicesLocator.CENTRIC1_BASE + "/measure/" + username,
-                        measure, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("STEPS","update successfull");
-                        Toast.makeText(getApplicationContext(),"MyHealthyLife: steps measure sucessfully updated",Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("STEPS","update error "+error.toString());
-                        Toast.makeText(getApplicationContext(),"MyHealthyLife: error during steps update",Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private StringRequest getStepsRequest(String username, final JSONObject measure) {
+
+        StringRequest request=new StringRequest(Request.Method.POST,
+                ServicesLocator.CENTRIC1_BASE + "/measure/" + username, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("STEPS","update successfull");
+                Toast.makeText(getApplicationContext(),"MyHealthyLife: steps measure sucessfully updated",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("STEPS","update error "+error.toString()+" "+error.getMessage());
+                Toast.makeText(getApplicationContext(),"MyHealthyLife: error during steps update",Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers=new HashMap<>();
+
+                Log.d("REQUEST","get custom headers");
+
+                headers.put("Accept","application/json");
+
+                return headers;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                Log.d("REQUEST","message: "+measure.toString());
+                try {
+                    return measure.toString().getBytes("utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return String.format("application/json; charset=%s", "utf-8");
+            }
+
+
+        };
+
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                60*1000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        try {
+            Log.d("REQUEST","body: "+new String(request.getBody(),"UTF-8"));
+            Log.d("REQUEST","body: "+request.getBodyContentType());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
+
+        return request;
     }
 
     @Override

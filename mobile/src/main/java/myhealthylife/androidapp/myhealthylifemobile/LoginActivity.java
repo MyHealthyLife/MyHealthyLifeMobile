@@ -16,15 +16,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import myhealthylife.androidapp.myhealthylifemobile.services.StepsService;
 import myhealthylife.androidapp.myhealthylifemobile.utils.ServicesLocator;
@@ -128,28 +133,44 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue requestQueue= Volley.newRequestQueue(this);
 
         /*preare the get request*/
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,
+        StringRequest stringRequest=new StringRequest(Request.Method.GET,
                 ServicesLocator.CENTRIC1_BASE+"/user/data/"+username.getText()
-                ,null ,new Response.Listener<JSONObject>() {
+                 ,new Response.Listener() {
             @Override
-            public void onResponse(JSONObject response) {
-                /*handle a 200 response*/
-                Log.d("JSON",response.toString());
-                validateLogin(response,username.getText().toString(),password.getText().toString());
+            public void onResponse(Object response) {
+                Log.d("STRING_REQ",response.toString());
+                try {
+                    JSONObject jsonObject=new JSONObject(response.toString());
+                    validateLogin(jsonObject,username.getText().toString(),password.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loginError();
+                }
                 hideLoadingDialog();
             }
-        }, new Response.ErrorListener() {
-            /*handle an error*/
+
+        },new Response.ErrorListener(){
+
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("JSON",error.toString());
-                loginError();
-                hideLoadingDialog();
+                Log.d("STRING_REQ",error.toString());
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers=new HashMap<>();
+
+                Log.d("REQUEST","get custom headers");
+
+                headers.put("Accept","application/json");
+                headers.put("Content-Type","application/json");
+
+                return headers;
+            }
+        };
 
         /*add the request to the request queue, it will be executed as soon as possible*/
-        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(stringRequest);
     }
 
     /**
