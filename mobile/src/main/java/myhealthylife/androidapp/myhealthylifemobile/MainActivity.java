@@ -113,6 +113,10 @@ public class MainActivity extends AppCompatActivity{
             case R.id.send_steps:
                 sendSteps();
                 break;
+            case R.id.reaload_page:
+                if(webView!=null)
+                    webView.reload();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

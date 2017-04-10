@@ -9,6 +9,11 @@
         app:showAsAction="never"
         android:title="Logout" />
 
+    <item android:id="@+id/reaload_page"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="Refresh page"/>
+
     <item android:id="@+id/send_steps"
         app:showAsAction="always"
         android:title="Send Steps"
