@@ -133,6 +133,12 @@
 				</div>
 			</div>
 		</div>
+		
+		
+    	<div class="panel-body showErrorProgressBars">
+    		<center>Insert at least one measure first!</center>
+    	</div>
+		
 	</div>
 		
 		       
@@ -241,7 +247,11 @@
 					                  </div>
 					            </div>
 					        </div>
-					    </div>
+					  
+					  <div class="showErrorCurrentHealth">
+			    		<center>Insert at least one measure first!</center>
+			        </div>      
+				       </div>
 			</div>
 			</div>
 			
@@ -286,6 +296,10 @@
 										
 					                  </div>
 					            </div>
+					        </div>
+					        
+					        <div class="showErrorHistory">
+					    		<center>Insert at least one measure first!</center>
 					        </div>
 					    </div>
 	 			

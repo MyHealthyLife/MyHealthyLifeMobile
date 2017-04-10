@@ -10,6 +10,7 @@ app.controller('currentHealthController', function ($scope,$rootScope, $http) {
 	$rootScope.loadCurrentHealth = function () {
 		
 		// Shows the loader
+        $(".showErrorCurrentHealth").hide();
         $(".showOnLoadCurrentHealth").hide();
         $(".loaderCurrentHealth").show();
         
@@ -27,29 +28,53 @@ app.controller('currentHealthController', function ($scope,$rootScope, $http) {
             
         	// Memorizes the data in the scope
         	$scope.user_data = success.data;
+        	
+        	console.log($scope.user_data.healthProfile);
             
         	// Gets the list of measures in the health profile
-            var measures = $scope.user_data.healthProfile.currentHealth.measure;
+        	if($scope.user_data.healthProfile!=null){
+        		if($scope.user_data.healthProfile.currentHealth.measure==null){
+        			// Hides the loader and shows the error
+                    $(".loaderCurrentHealth").hide();
+                    $(".showErrorCurrentHealth").show();
+                    return;
+        		}
+	            var measures = $scope.user_data.healthProfile.currentHealth.measure;
+	            
+	            
+	            
+	            
+	            
+	            // For each measure it checks the type
+	            for (i = 0; i < measures.length; i++) { 
+	                
+	            	if(measures[i].measureType=='weight')
+	            		$scope.weight = measures[i].measureValue;
+	            	if(measures[i].measureType=='height')
+	            		$scope.height = measures[i].measureValue;
+	            	if(measures[i].measureType=='steps')
+	            		$scope.steps = measures[i].measureValue;
+	            	if(measures[i].measureType=='bloodpressure')
+	            		$scope.bloodpressure = measures[i].measureValue;
+	            }
+	         // Hides the loader and shows the content
+	            $(".loaderCurrentHealth").hide();
+	            $(".showOnLoadCurrentHealth").show();
+        	}
+        	else{
+        		// Hides the loader and shows the error
+                $(".loaderCurrentHealth").hide();
+                $(".showErrorCurrentHealth").show();
+        	}
             
-            // For each measure it checks the type
-            for (i = 0; i < measures.length; i++) { 
-                
-            	if(measures[i].measureType=='weight')
-            		$scope.weight = measures[i].measureValue;
-            	if(measures[i].measureType=='height')
-            		$scope.height = measures[i].measureValue;
-            	if(measures[i].measureType=='steps')
-            		$scope.steps = measures[i].measureValue;
-            	if(measures[i].measureType=='bloodpressure')
-            		$scope.bloodpressure = measures[i].measureValue;
-            }
             
-            // Hides the loader and shows the content
-            $(".loaderCurrentHealth").hide();
-            $(".showOnLoadCurrentHealth").show();
             
         }, function(error){
         	console.log('Error current health');
+
+            // Hides the loader and shows the error
+            $(".loaderCurrentHealth").hide();
+            $(".showErrorCurrentHealth").show();
         });
         
        
@@ -80,6 +105,7 @@ app.controller('progressBarController', function ($scope,$rootScope, $http) {
 	$rootScope.loadProgressBars = function () {
 
 		// Shows the loader
+        $(".showErrorProgressBars").hide();
         $(".showOnLoadProgressBars").hide();
         $(".loaderProgressBars").show();
         
@@ -129,6 +155,10 @@ app.controller('progressBarController', function ($scope,$rootScope, $http) {
             
         }, function(error){
         	console.log('Error progress bars');
+
+            // Hides the loader and shows the error
+            $(".loaderProgressBars").hide();
+            $(".showErrorProgressBars").show();
         });
         
     };
@@ -236,6 +266,7 @@ app.controller('measureHistoryController', function ($scope,$rootScope, $http) {
 	$rootScope.loadMeasureHistory = function () {
 		
 		// Shows the loader
+        $(".showErrorHistory").hide();
         $(".showOnLoadHistory").hide();
         $(".loaderHistory").show();
         
@@ -252,6 +283,14 @@ app.controller('measureHistoryController', function ($scope,$rootScope, $http) {
         }).then(function(success) {
 
         	// Memorizes the data in the scope
+        	
+        	if(success.data.measures==null){
+        		 // Hides the loader and shows the error
+                $(".loaderHistory").hide();
+                $(".showErrorHistory").show();
+                return;
+        	}
+        	
         	$scope.measureHistory = success.data.measures;
         	var j = $scope.measureHistory.length-1;
         	
@@ -281,6 +320,11 @@ app.controller('measureHistoryController', function ($scope,$rootScope, $http) {
             
         }, function(error){
         	console.log('Error load measure history');
+        	
+
+            // Hides the loader and shows the error
+            $(".loaderHistory").hide();
+            $(".showErrorHistory").show();
         });
         
        

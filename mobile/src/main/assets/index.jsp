@@ -98,9 +98,6 @@
 	    </div>
 	</div><br> -->
 	<div class="row">
-		<div class="col-sm-12">
-			<h2>My Profile</h2>
-		</div>
 	</div>
 	<div class="row" ng-controller="user_data">
 		<div class="col-sm-4">
@@ -126,10 +123,14 @@
 		                    </div>
 		                    <div class="desc">Firstname: {{user_data.firstname}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
 		                    <div class="desc">Lastname: {{user_data.lastname}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
-		                    <div class="desc">Sex: {{user_data.sex}} </div>
+		                    <div class="desc">Sex: {{user_data.sex}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i> </div>
 		                    <div class="desc">Birthdate: {{user_data.birthdate}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
+		                    <div class="desc">City: {{user_data.city}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
+		                    <div class="desc">Country: {{user_data.country}} <i class="loading_data fa fa-spinner fa-spin" style="font-size:24px"></i></div>
+		                    
 		                    <div class="desc checkbox"><input type="checkbox" ng-model="user_data.usernameVisible" disabled="disabled"/> public telegram username</div>
 		                    <div class="desc"><br><button class="btn btn-primary" ng-click="editData()"><span class="	glyphicon glyphicon-pencil"></span>Edit data</button></div>
+		                	
 		                </div>
 		                <div class="bottom">
 		       
@@ -170,7 +171,12 @@
 			                            			<option value="F">F</option>
 			                            		</select><br>
 			                            		<label>Birthdate:</label>
-			                            		<input class="form-control" type="date" name="birthdate" ng-model="edit_birthdate"><br><br>
+			                            		<input class="form-control" type="date" name="birthdate" ng-model="edit_birthdate"><br>
+			                            		<label>City:</label>
+			                            		<input class="form-control" type="text" name="city" ng-model="edit_city" /><br>
+			                            		<label>Country (IT - DE - GB - ...):</label>
+			                            		<input class="form-control" type="text" name="country" ng-model="edit_country" maxlength="2"/>
+			                            		<br><br>
 			                            		<div class="checkbox"><input type="checkbox" ng-model="edit_username_visibility"/>Telegram username visible </div>
 			                            		
 			                            	</form>
@@ -195,10 +201,59 @@
 		
 		</div>
 
+
+		
+		
 	
 
 
-		<div class="col-sm-8" ng-controller='sentence_receviver'>
+
+	
+
+
+		<div class="col-sm-8">
+			
+			
+			<div ng-controller="weatherController">
+
+	     
+			<center><div class="loader loaderWeather"></div></center>
+			<center><div class="no_weather" hidden="hidden"><h4>Set your city information in order to get the weather</h4></div></center>
+	
+			
+			
+			<div class="row showOnLoadWeather">
+				<div class="col-sm-12">
+					<div class="forecast-container">
+						<div class="today forecast">
+							<div class="forecast-header">
+								<div class="day">Weather for: {{weatherData.day}}</div>
+								<div class="date">{{weatherData.date}}</div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="location">{{weatherData.city}}</div>
+								<div class="degree">
+									<div class="num">{{weatherData.temperature}}<sup>o</sup>C</div>
+									<div class="forecast-icon">
+										<img src="{{weatherData.url}}" alt="" width=90>
+									</div>	
+								</div><br>
+								<span><img src="images/icon-umberella.png" alt="">{{weatherData.precipitation}}</span>
+								<span><img src="images/icon-wind.png" alt="">{{weatherData.windSpeed}} knots</span>
+								<span><img src="images/icon-compass.png" alt="">{{weatherData.windDirection}}</span>
+								<br><br>
+								<font size="5">{{weatherData.textWeather}}.</font>
+								<font size="5">{{weatherData.textSentence}}</font>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+	</div>
+			
+			
+			<div ng-controller='sentence_receviver'>
 			
 			<div class="panel panel-primary">
     	<div class="panel-heading">
@@ -207,26 +262,13 @@
      
      	
 		<center><div class="loader loaderSentences"></div></center>
+		<center><div class="no_sentence" hidden="hidden"><h4>No sentence for you :(</h4></div></center>
 
     	<div class="panel-body showOnLoadSentences">
         	<div class="tab-content">
-            	<div class="tab-pane ranking active" id="test">
+            	<div class="tab-pane dedicated-sentences active" id="test">
 				
-				<div class="row">
-					<div class="col-sm-6">
-					
-					    <div class="form-group">
-				    	</div>
-				    </div>
-				</div>
-			<div class="row">
-					<div class="col-sm-12">
-					    <div class="form-group">
-				    	    <!-- <h1 ng-repeat="x in myData">{{x}}</h1>
-				    	    <button class="btn btn-primary" ng-click="loadData()">Load</button>-->
-				    	</div>
-				    </div>
-			</div>
+				
 			<div class="row">
 				<div class="col-sm-12 scrollable-panel">
 					  <!-- <div ui-grid="{ data: myData }" class="myGrid"></div> -->
@@ -237,12 +279,14 @@
 						  <!-- <img class="card-img-top" src="http://stock.wikimini.org/w/images/9/95/Gnome-stock_person-avatar-profile.png" alt="Card image cap">-->
 						  <div class="card-block">
 						    <h4 class="card-title"><span class="glyphicon glyphicon-user"></span> <a data-toggle="collapse" href="#image-div-{{x.idDedicatedSentence}}">{{x.usernameOne}} [{{x.insertionTime}}]</a></h4>
-						    <p class="card-text"> {{x.sentenceText}}</p>
-						    
+						   	<div class="row">
+							    <div class=col-sm-6><p class="card-text"> {{x.sentenceText}}</p></div>
+							    <div class=col-sm-6><p align="right"><a href="#" class="btn btn-primary" ng-click="replaySentence(x.usernameOne)">Reply</a></p></div>
+						    </div>
 						    <div class="collapse" id="image-div-{{x.idDedicatedSentence}}">
 						    	<img src="{{x.url}}" alt="no image here :(" style="max-width: 50%; max-height: 50%"><img>
 						    </div>
-						    <p align="right"><a href="#" class="btn btn-primary" ng-click="replaySentence(x.usernameOne)">Reply</a></p>
+						    
 						  </div>
 						</div>
 				</div>
@@ -252,6 +296,15 @@
 		</div>
 	</div>
 		<br>
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		<!-- Reply Modal -->
@@ -298,6 +351,7 @@
 		       </div>
 		 
 		
+		</div>
 		</div>
 		
 		<!-- Confirmation Modal -->
@@ -376,12 +430,13 @@
 	
 	
 	
-	<div class="panel panel-primary">
+	<div class="panel panel-primary" ng-controller="suggestedRecipesController">
     	<div class="panel-heading">
          	<h3 class="panel-title">Suggested recipes</h3>
      	</div>
      
 	<center><div class="loader loaderSuggestedRecipes"></div></center>
+	<center><div class="no_recipe" hidden="hidden"><h4>Save more measure in order to get the right recipe for you!</h4></div></center>
 
     	<div class="panel-body showOnLoadSuggestedRecipes">
         	<div class="tab-content">
@@ -396,7 +451,7 @@
 					</div>
 		
 		
-					<div class="row" ng-controller="suggestedRecipesController">
+					<div class="row">
 							
 						<div class="panel-group" id="accordion">
 						  <div class="panel panel-default" ng-repeat="singleRecipe in suggestedRecipes">
@@ -438,6 +493,7 @@
 					</div>
 					<div class="panel-body">
 						<center><div class="loader loaderFoods"></div></center>
+						<center><div class="no_food" hidden="hidden"><h4>Save more measure in order to get the right foods for you!</h4> </div></center>
 						<div class="foods_card">
 							<div class="card"  ng-repeat='f in foodData' >
 								<div class="card-block">
