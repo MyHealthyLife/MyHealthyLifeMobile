@@ -21,3 +21,7 @@ The advantages of having the pages of the web application stored in the Smart Ph
 - The network usage is reduced.
 
 When the user open the App the first time a login page is proposed to the user. The user inserts his data and the login in validate on the centric1 service. The login information are stored in the memory and loaded in the **WebView** during the application start-up, this information can be used by the webapp in order to retrieve and send information to the *MyHealthyLife* beck-end.
+
+#### 2.2 Background service
+
+This application...
