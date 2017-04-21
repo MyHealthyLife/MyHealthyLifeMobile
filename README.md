@@ -15,7 +15,7 @@ This application has two main component:
 
 The *"Home"* of the App is a **WebView** which contains the whole web application, the web application is written using the **Angular JS** framework, which allows the programmer to easily handle asynchronous REST call ad the data manipulation. Also all the all the computation is managed in the client side; this allows us to encapsulate it in the Android application without changing the web application source code.
 
-The advantages of having the pages of the web application stored in the Smart Phone memory are:
+The advantages of having the pages of the web application stored in the smartphone memory are:
 
 - The application loading time is reduced, in-fact the page is loaded from the phone memory and only the REST call are sent to the beck-end.
 - The network usage is reduced.
@@ -24,4 +24,4 @@ When the user open the App the first time a login page is proposed to the user. 
 
 #### 2.2 Background service
 
-This application...
+As mentioned above, this application send automatically the amount of steps to the beck-end two times a day. In order to do that it relies on the **Android Alarm Manager**, which is an Android system service which executes tasks at precise time interval. In this particular case the App configure the *Alarm Manager* in order to execute a task, which first read the value of the step-counter of the phone and then makes a REST call, every 12 hour. 
