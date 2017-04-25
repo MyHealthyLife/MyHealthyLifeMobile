@@ -240,7 +240,7 @@ app.controller('foods_for_me', function ($scope,$rootScope, $http) {
             $('.loaderFoods').hide();
     		$('.foods_card').show();
     		$('.no_food').hide();
-            
+            console.log($scope.foodData);
         }, function(error){
         	console.log('error');
         	$('.no_food').show();

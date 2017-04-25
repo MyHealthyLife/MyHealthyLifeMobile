@@ -105,7 +105,7 @@
 			<div class="panel panel-primary">
 			
 				<div class="panel-heading">
-					<h4>Personal data</h4>
+					<h3 class="panel-title">Personal data</h3>
 				</div>
 			
 				<div class="panel-body">
@@ -270,7 +270,7 @@
 				
 				
 			<div class="row">
-				<div class="col-sm-12 scrollable-panel">
+				<div class="col-sm-12">
 					  <!-- <div ui-grid="{ data: myData }" class="myGrid"></div> -->
 					  <div ng-if='myData.lenght <=0 || myData=="" '>
 					  	<p class="text-muted">No new sentence for you :'( </p>
@@ -278,10 +278,27 @@
 					  <div class="card" ng-repeat="x in myData">
 						  <!-- <img class="card-img-top" src="http://stock.wikimini.org/w/images/9/95/Gnome-stock_person-avatar-profile.png" alt="Card image cap">-->
 						  <div class="card-block">
-						    <h4 class="card-title"><span class="glyphicon glyphicon-user"></span> <a data-toggle="collapse" href="#image-div-{{x.idDedicatedSentence}}">{{x.usernameOne}} [{{x.insertionTime}}]</a></h4>
+						  <div class="row">
+						  <div class=col-sm-9>
+			    			<h4 class="card-title"><span class="glyphicon glyphicon-user"></span> <a data-toggle="collapse" href="#image-div-{{x.idDedicatedSentence}}">{{x.usernameOne}} [{{x.insertionTime}}]</a></h4>
+					   	 	</div>
+					   	 	<div class=col-sm-3>
+							    	<!-- <p align="right"><a href="#" class="btn btn-primary" ng-click="replaySentence(x.usernameOne)">Reply</a></p>
+							    	-->
+						    	<p align="right">
+						    		<a class="btn btn-primary" href="#" ng-click="replaySentence(x.usernameOne)">
+							    		<i class="glyphicon glyphicon-share-alt pull-left"></i>
+							    		<span>Reply<!-- <br><small>to {{x.usernameOne}}</small> --></span>
+						    		</a>
+					    		</p>
+            
+							    </div>
+					   	  </div>
 						   	<div class="row">
-							    <div class=col-sm-6><p class="card-text"> {{x.sentenceText}}</p></div>
-							    <div class=col-sm-6><p align="right"><a href="#" class="btn btn-primary" ng-click="replaySentence(x.usernameOne)">Reply</a></p></div>
+							    <div class=col-sm-12>
+							    	<p class="card-text"> {{x.sentenceText}}</p>
+						    	</div>
+							    
 						    </div>
 						    <div class="collapse" id="image-div-{{x.idDedicatedSentence}}">
 						    	<img src="{{x.url}}" alt="no image here :(" style="max-width: 50%; max-height: 50%"><img>
@@ -428,8 +445,61 @@
 	<!--  </div>-->
 	</div>
 	
+
+
+	<div class="row">
+		
 	
-	
+			<div class="col-sm-6" ng-controller='foods_for_me'>
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+			         	<h3 class="panel-title">Suggested foods</h3>
+			     	</div>
+					<div class="panel-body suggested-foods">
+						<center><div class="loader loaderFoods"></div></center>
+						<center><div class="no_food" hidden="hidden"><h4>Save more measure in order to get the right foods for you!</h4> </div></center>
+						<div class="foods_card">
+							<!-- <div class="card"  ng-repeat='f in foodData' >
+								<!-- <div class="card-block">
+									<h4 class="card-title">{{f.name}} [{{f.foodType.category}}]</h4>
+									<p class="card-text"> <span class="glyphicon glyphicon-fire"></span> {{f.calories}} kcal</p>
+								</div>
+								
+							</div>-->
+							
+							<div class="panel-group" id="accordion">
+							  <div class="panel panel-default" ng-repeat="singleFood in foodData">
+							    <div class="panel-heading">
+							      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{singleFood.idFood}}">
+							        Food n.{{singleFood.idFood}}: {{singleFood.name}}</a>
+							      </h4>
+							    </div>
+							    <div id="collapse{{singleFood.idFood}}" class="panel-collapse collapse">
+							      <div class="panel-body">
+							      		
+							      		<h3>Information</h3>
+							    		Type: {{singleFood.foodType.category}}
+							    		<br>
+							    		Calories: {{singleFood.calories}} cal
+							      		
+									</div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			<div class="col-sm-6">
+		
+		
 	<div class="panel panel-primary" ng-controller="suggestedRecipesController">
     	<div class="panel-heading">
          	<h3 class="panel-title">Suggested recipes</h3>
@@ -451,17 +521,17 @@
 					</div>
 		
 		
-					<div class="row">
+					<div class="recipe_block">
 							
-						<div class="panel-group" id="accordion">
+						<div class="panel-group" id="accordionRecipe">
 						  <div class="panel panel-default" ng-repeat="singleRecipe in suggestedRecipes">
 						    <div class="panel-heading">
 						      <h4 class="panel-title">
-						        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{singleRecipe.recipeId}}">
+						        <a data-toggle="collapse" data-parent="#accordionRecipe" href="#collapseRecipe{{singleRecipe.recipeId}}">
 						        Recipe n.{{singleRecipe.recipeId}}: {{singleRecipe.name}} [{{singleRecipe.calories}} calories]</a>
 						      </h4>
 						    </div>
-						    <div id="collapse{{singleRecipe.recipeId}}" class="panel-collapse collapse">
+						    <div id="collapseRecipe{{singleRecipe.recipeId}}" class="panel-collapse collapse">
 						      <div class="panel-body">
 						      		
 						      		<h3>Ingredients</h3>
@@ -484,28 +554,13 @@
 	</div>
 	
 	
-		<div class="row">
-			<div class="col-sm-12" ng-controller='foods_for_me'>
-				
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3>Suggested foods</h3>
-					</div>
-					<div class="panel-body">
-						<center><div class="loader loaderFoods"></div></center>
-						<center><div class="no_food" hidden="hidden"><h4>Save more measure in order to get the right foods for you!</h4> </div></center>
-						<div class="foods_card">
-							<div class="card"  ng-repeat='f in foodData' >
-								<div class="card-block">
-									<h4 class="card-title">{{f.name}} [{{f.foodType.category}}]</h4>
-									<p class="card-text"> <span class="glyphicon glyphicon-fire"></span> {{f.calories}} kcal</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		
+	
+	
+	
+	
+	</div>
+			
+			
 		</div>
 	
 	</div>
