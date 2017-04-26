@@ -9,7 +9,7 @@ This application has two main component:
 - a *WebView* which contains the pages of the [Web Application](https://github.com/MyHealthyLife/MyHealthyLifeWeb "").
 - A background service which read the amount of steps from the step-counter of the smart-phone and sends it automatically two times a day.
 
-A compiled version of this App is available at: [https://github.com/MyHealthyLife/MyHealthyLifeMobile/releases/tag/0.1](https://github.com/MyHealthyLife/MyHealthyLifeMobile/releases/tag/0.1 "")
+A compiled version of this App is available at: [https://github.com/MyHealthyLife/MyHealthyLifeMobile/releases/tag/0.101](https://github.com/MyHealthyLife/MyHealthyLifeMobile/releases/tag/0.101 "")
 
 ## 2.Application Implementation
 
